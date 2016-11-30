@@ -4,14 +4,14 @@ from sqlalchemy import Column, Integer, String, DateTime, BOOLEAN
 from sqlalchemy import Numeric, func, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
 #Helper table
-permission_table = Table('Permissions', Base.metadata,
-    Column('idEvent', Integer, ForeignKey('Event.idEvent')),
-    Column('idGroup', Integer, ForeignKey('Group.idGroup'))
+userGroup_table = Table('User2Group', Base.metadata,
+    Column('idGroup', Integer, ForeignKey('Groups.idGroup')),
+    Column('idUser', Integer, ForeignKey('Users.idUser'))
 )
 
-userGroup_table = Table('UserGroup', Base.metadata,
-    Column('idUser', Integer, ForeignKey('Event.idEvent')),
-    Column('idGroup', Integer, ForeignKey('Group.idGroup'))
+permission_table = Table('Permissions', Base.metadata,
+    Column('idEvent', Integer, ForeignKey('Events.idEvent')),
+    Column('idGroup', Integer, ForeignKey('Groups.idGroup'))
 )
 #Primary Class
 class User(Base):
@@ -23,13 +23,14 @@ class User(Base):
     Email = Column(String)
     VKID = Column(String)
 
-    group = relationship(
+    group2user = relationship(
         "Group",
         secondary=userGroup_table,
-        back_populates="users")
+        back_populates="user2group")
     
-    taskExecute = relationship("Task", back_populates="executors")
-    taskDirect = relationship("Task", back_populates="directors")
+#    taskExecute = relationship("Task", back_populates="executors")
+#    taskDirect = relationship("Task", back_populates="directors")
+
 
     comment = relationship("Comment", back_populates="writer")
     def __repr__(self):
@@ -43,15 +44,15 @@ class Group(Base):
     idGroup = Column(Integer, primary_key=True)
     GroupName = Column(String, nullable = False)
 
-    event = relationship(
+    events = relationship(
         "Event",
         secondary=permission_table,
         back_populates="groups")
 
-    user = relationship(
+    user2group = relationship(
         "User",
         secondary=userGroup_table,
-        back_populates="groups")
+        back_populates="group2user")
 
     def __repr__(self):
         return "<Group(%r)>" % (
@@ -69,7 +70,7 @@ class Event(Base):
     EventPlace = Column(String)
     EventGirls = Column(String)
 
-    group = relationship(
+    groups = relationship(
         "Group",
         secondary=permission_table,
         back_populates="events")
@@ -86,9 +87,9 @@ class Task(Base):
     TaskText = Column(String, nullable = False)
     TaskStatus = Column(BOOLEAN, nullable = False)
     idExecutor = Column(Integer, ForeignKey(User.idUser), nullable = False)
-    execute = relationship('User', back_populates = "executors")
+    executors = relationship('User', foreign_keys = [idExecutor])
     idDirector = Column(Integer, ForeignKey(User.idUser), nullable = False)   
-    direct = relationship ('User', back_populates = "directors")
+    directors = relationship ('User', foreign_keys = [idDirector])
 
     def __repr__(self):
         return "<Task(%r)>" % (
@@ -153,17 +154,29 @@ Base.metadata.create_all(engine)
 from sqlalchemy.orm import Session
 session = Session(bind=engine)
 session.add_all([
-    User(idUser = 1, UserName='Соль', UserPass = "123"),
-    User(idUser = 2, UserName='Киса', UserPass = "123"),
-    User(idUser = 3, UserName='Ксавьер', UserPass = "123")
-    Group(idGroup = 1, GroupName = "Боец")
-    Group(idGroup = 2, GroupName = "ТГ")
-    Group(idGroup = 3, GroupName = "КомСостав")
-    Group(idGroup = 4, GroupName = "Старик")
-    Event(idEvent = 1, EventName = "Знакомка", EventDate = func.now())
-    Task (idTask = 1, TaskText = "Служебка", TaskStatus = False, idExecutor = 1, idDirector = 1)
-    History(idHistory = 1, HistoryText = "Давным давно...")
-    Member(idMember = 1, MemberName = "Малахов Константин Денисович", MemberYear = func.now())
-    Song(idSong = 1, SongTitle = "Вот моя целинка", SongText = "Вот моя целинка, а на ней значёк")
+    User(idUser = 1, UserName='Sol', UserPass = "123"),
+    User(idUser = 2, UserName='Cat', UserPass = "123"),
+    User(idUser = 3, UserName='Xaver', UserPass = "123"),
+    Group(idGroup = 1, GroupName = "Boec"),
+    Group(idGroup = 2, GroupName = "TG"),
+    Group(idGroup = 3, GroupName = "KS"),
+    Group(idGroup = 4, GroupName = "old"),
+    Event(idEvent = 1, EventName = "Kefirnik", EventDate = func.now()),
+    Task (idTask = 1, TaskText = "Order", TaskStatus = False, idExecutor = 1, idDirector = 1),
+    History(idHistory = 1, HistoryText = "test1"),
+    Member(idMember = 1, MemberName = "Malakhov Konstantin Denisovich", MemberYear = func.now()),
+    Song(idSong = 1, SongTitle = "Test2", SongText = "Text test2")
 ])
 session.commit()
+
+if __name__ == '__main__':
+    import codecs
+    import sadisplay
+
+    desc = sadisplay.describe(globals().values())
+
+    with codecs.open('schema.plantuml', 'w', encoding='utf-8') as f:
+        f.write(sadisplay.plantuml(desc))
+
+    with codecs.open('schema.dot', 'w', encoding='utf-8') as f:
+        f.write(sadisplay.dot(desc))
