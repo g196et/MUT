@@ -17,9 +17,9 @@ Description: Site Impuls README
         
         - export VENV=~/path/to/env
         
-        - $VENV/bin/pip install e .
+        - $VENV/bin/python setup.py develop
         
-        - $VENV/bin/init_impuls_db development.ini
+        - $VENV/bin/initialize_impuls_db development.ini
         
         - $VENV/bin/pserve development.ini
         
@@ -28,6 +28,8 @@ Description: Site Impuls README
         -cd directory containing this file
         
         -python setup.py develop
+        
+        -initialize_impuls_db development.ini
         
         -pserve development.ini
 Keywords: web wsgi bfg pylons pyramid

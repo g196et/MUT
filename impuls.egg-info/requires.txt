@@ -5,3 +5,4 @@ SQLAlchemy
 transaction
 zope.sqlalchemy
 waitress
+bcrypt

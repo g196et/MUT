@@ -14,6 +14,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'bcrypt',
+    'deform',
 ]
 
 setup(name='impuls',

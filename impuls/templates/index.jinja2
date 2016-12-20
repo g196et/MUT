@@ -67,7 +67,13 @@
 						<li><a href="#">История</a></li>
 						<li><a href="#">Бойцы и старики</a></li>
 						<li><a href="#">Архив фото</a></li>
-						<li><a href="#">Авторизация</a></li>
+						<li>{% if not view.logged_in %}
+            					<a href="/login">Авторизация</a>
+							{% endif %}
+							{% if view.logged_in %}
+            					<a href="/logout">Logout</a>
+							{% endif %}
+						</li>
 					</ul>
 					</nav>
 				</div>
