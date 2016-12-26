@@ -38,7 +38,14 @@ class MyViews:
     @view_config(route_name='songs', renderer = 'templates/songs.jinja2')
     def songs(self):
         request = self.request
+        songs = DBSession.query(Song).order_by(Song.idSong)
+        return {'songs':songs}
+
+    @view_config(route_name='addSong', renderer='templates/addSong.jinja2', permission='edit')
+    def addSong(self):
+        request = self.request
         if 'form.submitted' in request.params:
+            print ("\n111\n")
             body = request.params['body']
             title = request.params['title']
             DBSession.add(Song(SongTitle = title, SongText = body, SongWriter = "11"))

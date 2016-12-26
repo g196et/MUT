@@ -1,25 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Песни: Add/Edit</title>
-</head>
-<body>
+{% extends "base.jinja2" %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block menu %}
+{{ super() }}
+{% endblock %}
+
+{% block body %}
 Список песен: 
 {% for song in songs %}
     {{song.SongTitle}}<br>
 {% endfor %}
+<a href ="{{request.route_url('addSong')}}">Добавить Песню</a>
+</div></div>
+{% endblock %}
 
-<form method="post">
-<div class="form-group">
-    <textarea class="form-control" name="title" rows="10" cols="60"></textarea>
-</div>
-<div class="form-group">
-    <textarea class="form-control" name="body" rows="10" cols="60"></textarea>
-</div>
-<div class="form-group">
-    <button type="submit" name="form.submitted" value="Save" class="btn btn-default">Save</button>
-</div>
-</form>
-
-</body>
-</html>
+{% block load %}
+{{ super() }}
+{% endblock %}

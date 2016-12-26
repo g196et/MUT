@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="ru"> <!--<![endif]-->
+{% block head %}
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Заголовок</title>
+	<meta name="description" content="">
+
+	<!-- Bootstrap v3.3.4 Grid Styles -->
+	
+	<!-- Header CSS (First Sections of Website: paste after release from _header.min.css here) -->
+	<style></style>
+	
+	<!-- Load Main CSS Compilled without JS 
+	<link rel="stylesheet" href="/static/kek.css">
+	<link rel="stylesheet" href="/static/_main.min.css">
+	<link rel="stylesheet" href="/static/_header.min.css">-->
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="shortcut icon" href="/static/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/static/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/static/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/static/img/favicon/apple-touch-icon-114x114.png">
+
+</head>
+{% endblock %}
+<body class="ishome">
+<header class="main-head">
+		
+	<div class="container">
+		
+		<div class="row">
+			{% block menu %}
+			<div class="menu-line clearfix">
+				
+				<div class="col-lg-2 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+					<a href="#" class="logo"><img src="/static/img/logo.png" alt="ССО Импульс"></a>
+				</div>
+			
+				<div class="col-lg-2 col-lg-push-8 col-md-6 col-sm-6 col-xs-12">
+					<div class="phone">
+						<div class="phone-wrap">
+							Командир: Костя Малахов<br>
+							<i class="fa fa-mobile"></i>+7 (902) 501-34-25<br>
+							Комиссар: Денис Русев<br>
+							<i class="fa fa-mobile"></i>+7 (953) 002-36-43
+						</div>
+					</div>	
+
+					<a href="#" class="toggle-menu hidden-lg"><span></span></a>
+
+				</div>
+
+				<div class="col-sm-8 col-md-pull-2">
+					
+					<nav class="main-menu hidden-md hidden-sm hidden-xs"><ul>
+						<li class="active"><a href="{{request.route_url('home')}}">Главная </a></li>
+						<li><a href="{{request.route_url('songs')}}">Песни</a></li>
+						<li><a href="#">История</a></li>
+						<li><a href="#">Бойцы и старики</a></li>
+						<li><a href="#">Архив фото</a></li>
+						<li>{% if not view.logged_in %}
+            					<a href="/login">Авторизация</a>
+							{% endif %}
+							{% if view.logged_in %}
+            					<a href="/logout">Logout</a>
+							{% endif %}
+						</li>
+					</ul>
+					</nav>
+				</div>
+
+				<div class="col-xs-12">
+					<nav class="main-menu hidden-menu hidden-lg clearfix">
+						<ul>
+							<li class="active"><a href="{{request.route_url('home')}}">Главная </a></li>
+							<li><a href="{{request.route_url('songs')}}">Песни</a></li>
+							<li><a href="#">История</a></li>
+							<li><a href="#">Бойцы и старики</a></li>
+							<li><a href="#">Архив фото</a></li>
+							<li><a href="#">Авторизация</a></li>
+						</ul>
+					</nav>
+				</div>
+
+			</div>
+{% endblock %}
+
+{% block body %}{% endblock %}
+
+{% block load %}
+	<div class="hidden"></div>
+
+	<!--[if lt IE 9]>
+	<script src="/static/libs/html5shiv/es5-shim.min.js"></script>
+	<script src="/static/libs/html5shiv/html5shiv.min.js"></script>
+	<script src="/static/libs/html5shiv/html5shiv-printshiv.min.js"></script>
+	<script src="/static/libs/respond/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Load CSS -->
+	<script>
+		function loadCSS(hf) {
+			var ms=document.createElement("link");ms.rel="stylesheet";
+			ms.href=hf;document.getElementsByTagName("head")[0].appendChild(ms);
+		}
+		loadCSS("/static/kek.css");
+		loadCSS("/static/_header.min.css"); //Header Styles (compress & paste to header after release)
+		loadCSS("/static/_main.min.css");   //User Styles + Media Queries
+	</script>
+
+	<!-- Load Scripts -->
+	<script>var scr = {"scripts":[
+		{"src" : "/static/js/libs.js", "async" : false},
+		{"src" : "/static/js/common.js", "async" : false}
+		]};!function(t,n,r){"use strict";var c=function(t){if("[object Array]"!==Object.prototype.toString.call(t))return!1;for(var r=0;r<t.length;r++){var c=n.createElement("script"),e=t[r];c.src=e.src,c.async=e.async,n.body.appendChild(c)}return!0};t.addEventListener?t.addEventListener("load",function(){c(r.scripts);},!1):t.attachEvent?t.attachEvent("onload",function(){c(r.scripts)}):t.onload=function(){c(r.scripts)}}(window,document,scr);
+	</script>
+{% endblock %}
+</body>
+
+</html>

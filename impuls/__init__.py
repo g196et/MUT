@@ -29,6 +29,7 @@ def main(global_config, **settings):
     config.set_authorization_policy(authz_policy)
     config.add_route('home', '/')
     config.add_route('songs', '/songs')
+    config.add_route('addSong', '/addSong')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_static_view('static', 'impuls:static', cache_max_age=3600) 
